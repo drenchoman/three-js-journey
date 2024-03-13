@@ -1,5 +1,11 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import GUI from 'lil-gui';
+
+const gui = new GUI({
+  width: 340,
+  title: 'Debug UI',
+});
 
 // One Texture loader can load multiple textures
 const loadingManager = new THREE.LoadingManager();
@@ -53,7 +59,7 @@ colorTexture.center.x = 0.5;
 colorTexture.center.y = 0.5;
 
 // colorTexture.generateMipmaps = false;
-// colorTexture.minFilter = THREE.NearestFilter;
+colorTexture.minFilter = THREE.NearestFilter;
 // colorTexture.magFilter = THREE.NearestFilter;
 
 // Preparing textures
@@ -89,6 +95,7 @@ const material = new THREE.MeshBasicMaterial({ map: colorTexture });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
+gui.add(mesh.position, 'x', -1, 3, 0.1);
 /**
  * Sizes
  */
@@ -123,7 +130,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 1;
 camera.position.y = 1;
-camera.position.z = 1;
+camera.position.z = 2;
 scene.add(camera);
 
 // Controls
@@ -146,7 +153,8 @@ const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
+  // mesh.rotation.x = (elapsedTime * Math.PI) / 4;
+  // mesh.position.y = Math.sin(elapsedTime / 2);
   // Update controls
   controls.update();
 
