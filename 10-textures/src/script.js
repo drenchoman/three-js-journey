@@ -18,7 +18,16 @@ const textureLoader = new THREE.TextureLoader(loadingManager);
 //   console.log('onError');
 // };
 
-const colorTexture = textureLoader.load('/textures/door/color.jpg');
+// const colorTexture = textureLoader.load('/textures/door/color.jpg');
+
+//** */ moire patterns
+const colorTexture = textureLoader.load(
+  '/textures/checkerboard-1024x1024.png'
+);
+// const colorTexture = textureLoader.load(
+//   '/textures/checkerboard-8x8.png'
+// );
+// const colorTexture = textureLoader.load('/textures/minecraft.png');
 // const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
 // const heightTexture = textureLoader.load('/textures/door/height.jpg');
 // const normalTexture = textureLoader.load('/textures/door/normal.jpg');
@@ -42,6 +51,13 @@ colorTexture.colorSpace = THREE.SRGBColorSpace;
 colorTexture.rotation = Math.PI / 4;
 colorTexture.center.x = 0.5;
 colorTexture.center.y = 0.5;
+
+// colorTexture.generateMipmaps = false;
+// colorTexture.minFilter = THREE.NearestFilter;
+// colorTexture.magFilter = THREE.NearestFilter;
+
+// Preparing textures
+// Power of 2 resolutions for sizes
 
 // Uploading using Javascript
 // Transform image into a texture
