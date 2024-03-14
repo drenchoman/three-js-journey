@@ -58,8 +58,29 @@ const torusGeo = new THREE.TorusGeometry(0.3, 0.2, 16, 32);
 // material.flatShading = true;
 
 // MeshMatCapMaterial
-const material = new THREE.MeshMatcapMaterial();
-material.matcap = matcapTexture;
+// const material = new THREE.MeshMatcapMaterial();
+// material.matcap = matcapTexture;
+
+// MeshDepthMaterial
+// const material = new THREE.MeshDepthMaterial();
+
+// MeshLambertMaterial -  Requires Light
+// const material = new THREE.MeshLambertMaterial();
+
+// MeshPhoneMaterial()
+const material = new THREE.MeshPhongMaterial();
+material.shininess = 100;
+material.specular = new THREE.Color(0x1188ff);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xffffff, 30);
+scene.add(pointLight);
+pointLight.position.x = 2;
+pointLight.position.y = 3;
+pointLight.position.z = 4;
 
 // Mesh
 const mesh1 = new THREE.Mesh(sphereGeo, material);
