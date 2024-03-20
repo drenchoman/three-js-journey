@@ -24,10 +24,17 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-const matcapMaterial = textureLoader.load('textures/matcaps/8.png');
+const matcapTexture = textureLoader.load('textures/matcaps/4.png');
+matcapTexture.colorSpace = THREE.SRGBColorSpace;
+
+const donutMatcapTexture = textureLoader.load(
+  'textures/matcaps/4.png'
+);
+donutMatcapTexture.colorSpace = THREE.SRGBColorSpace;
 
 // Font Loader
 const fontLoader = new FontLoader();
+
 fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
   const textGeo = new TextGeometry('Oscar Harron', {
     font: font,
@@ -51,12 +58,79 @@ fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
   textGeo.center();
 
   const textMaterial = new THREE.MeshMatcapMaterial({
-    matcap: matcapMaterial,
+    matcap: matcapTexture,
   });
   const textMesh = new THREE.Mesh(textGeo, textMaterial);
+  scene.add(textMesh);
+});
+
+fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
+  const textGeo = new TextGeometry('crafting web experiences', {
+    font: font,
+    size: 0.1,
+    height: 0.1,
+    curveSegments: 6,
+    bevelEnabled: true,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 2,
+  });
+
+  // textGeo.computeBoundingBox();
+  // console.log(textGeo.boundingBox);
+  // textGeo.translate(
+  //   -textGeo.boundingBox.max.x * 0.5,
+  //   -textGeo.boundingBox.max.y * 0.5,
+  //   -textGeo.boundingBox.max.z * 0.5
+  // );
+  textGeo.center();
+
+  const textMaterial = new THREE.MeshMatcapMaterial({
+    matcap: matcapTexture,
+  });
+  const textMesh = new THREE.Mesh(textGeo, textMaterial);
+  textMesh.position.y = -0.5;
 
   scene.add(textMesh);
 });
+
+console.log(scene);
+
+function getRandomInt(min, max) {
+  const minCeiling = Math.ceil(min);
+  const maxFloor = Math.floor(max);
+  let test = Math.random() * (maxFloor - minCeiling + 1) + minCeiling;
+  return test;
+}
+
+// optimising - take geometry and material out of the loop
+const donutGeomtry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
+const donutMaterial = new THREE.MeshMatcapMaterial({
+  matcap: donutMatcapTexture,
+});
+
+// Add Objects to scene
+const folder = gui.addFolder('Donuts');
+folder.add(donutMaterial, 'visible');
+
+for (let i = 0; i < 300; i++) {
+  const donutMesh = new THREE.Mesh(donutGeomtry, donutMaterial);
+  donutMesh.position.x = getRandomInt(-5, 5);
+  donutMesh.position.y = getRandomInt(-4, 4);
+  donutMesh.position.z = getRandomInt(-4, 4);
+
+  // Rotation
+  donutMesh.rotation.x = Math.random() * Math.PI;
+  donutMesh.rotation.y = Math.random() * Math.PI;
+
+  // Scale
+  const scale = Math.random();
+  donutMesh.scale.set(scale, scale, scale);
+  // folder.add(donutMesh, 'wireframe');
+
+  scene.add(donutMesh);
+}
 
 /**
  * Object
@@ -102,7 +176,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 1;
 camera.position.y = 1;
-camera.position.z = 2;
+camera.position.z = 3;
 scene.add(camera);
 
 // Controls
