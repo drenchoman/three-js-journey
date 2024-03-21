@@ -17,17 +17,114 @@ const scene = new THREE.Scene();
 /**
  * Lights
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-// ambientLight.color = new THREE.Color(0xffffff);
-// ambientLight.intensity = 1;
+// AmbientLight
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambientLight);
-gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001);
+gui
+  .add(ambientLight, 'intensity')
+  .min(0)
+  .max(3)
+  .step(0.001)
+  .name('Ambient Light');
+gui.add(ambientLight, 'visible');
+
+// Directional Light
+const directionalLight = new THREE.DirectionalLight(0x00ffc, 0.9);
+scene.add(directionalLight);
+directionalLight.position.set(1, 0.25, 0);
+gui
+  .add(directionalLight, 'intensity')
+  .min(0)
+  .max(3)
+  .step(0.001)
+  .name('Directional Light');
+gui.add(directionalLight.position, 'y').min(0).max(1).step(0.001);
+gui.add(directionalLight, 'visible');
+
+// Hemisphere Light
+const hemisphereLight = new THREE.HemisphereLight(
+  0xff00000,
+  0x0000ff,
+  1.5
+);
+scene.add(hemisphereLight);
+gui
+  .add(hemisphereLight, 'intensity')
+  .min(0)
+  .max(3)
+  .step(0.001)
+  .name('Hemisphere Light');
+gui.add(hemisphereLight, 'visible');
+
+// Pointlight
+const pointLight = new THREE.PointLight(0xff9000, 0.5, 20);
+scene.add(pointLight);
+pointLight.position.set(1, -0.6, 1);
+gui
+  .add(pointLight, 'intensity')
+  .min(0)
+  .max(4.5)
+  .step(0.001)
+  .name('Point Light');
+gui.add(pointLight.position, 'x').min(-2).max(2.5).step(0.001);
+gui.add(pointLight, 'visible');
+
+const rectAreaLight = new THREE.RectAreaLight(0x4e00ff, 2, 3, 1);
+scene.add(rectAreaLight);
+rectAreaLight.position.set(-1.5, 0, 1.5);
+rectAreaLight.lookAt(new THREE.Vector3());
+gui
+  .add(rectAreaLight, 'intensity')
+  .min(0)
+  .max(10)
+  .step(0.001)
+  .name('Rect Area Light');
+gui.add(rectAreaLight, 'visible');
+
+// Spotlight
+const spotLight = new THREE.SpotLight(
+  0x78ff0,
+  4.5,
+  10,
+  Math.PI * 0.1,
+  0.25,
+  1
+);
+spotLight.position.set(0, 2, 3);
+scene.add(spotLight);
+scene.add(spotLight.target);
+gui
+  .add(spotLight, 'intensity')
+  .min(0)
+  .max(15)
+  .step(0.001)
+  .name('Spotlight');
+gui.add(spotLight, 'visible');
+
+// Helpers
+// const hemispherLightHelper = new THREE.HemisphereLightHelper(
+//   hemisphereLight,
+//   0.2
+// );
+// scene.add(hemispherLightHelper);
+
+// const directionalLightHelper = new THREE.DirectionalLightHelper(
+//   directionalLight
+// );
+// scene.add(directionalLightHelper);
+
+// const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
+// scene.add(pointLightHelper);
+
+// const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+// scene.add(spotLightHelper);
+
 /**
  * Objects
  */
 // Material
 const material = new THREE.MeshStandardMaterial();
-material.roughness = 0.4;
+material.colorSpace = material.roughness = 0.4;
 
 // Objects
 const sphere = new THREE.Mesh(
