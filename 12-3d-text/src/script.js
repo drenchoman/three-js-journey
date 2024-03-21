@@ -23,12 +23,15 @@ const scene = new THREE.Scene();
 /**
  * Textures
  */
+let num = 3;
 const textureLoader = new THREE.TextureLoader();
-const matcapTexture = textureLoader.load('textures/matcaps/4.png');
+const matcapTexture = textureLoader.load(
+  `textures/matcaps/${num}.png`
+);
 matcapTexture.colorSpace = THREE.SRGBColorSpace;
 
 const donutMatcapTexture = textureLoader.load(
-  'textures/matcaps/4.png'
+  `textures/matcaps/${num}.png`
 );
 donutMatcapTexture.colorSpace = THREE.SRGBColorSpace;
 
